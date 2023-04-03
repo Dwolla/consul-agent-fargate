@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  pull_request:
+    branches: ['**']
+  push:
+    branches: ['**']
+    tags: [v*]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        consul:
+          - 1.1.1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build and Push Docker Image
+        uses: Dwolla/jenkins-agents-workflow/.github/actions/build@main
+        with:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+          BASE_TAG: ${{ matrix.consul }}
+          TAG_NAME: CONSUL_VERSION
+          IMAGE_NAME: dwolla/consul-agent-fargate
+  build-complete:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "The build completed successfully"
