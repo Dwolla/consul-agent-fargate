@@ -7,3 +7,7 @@ I've been totally unable to get Consul Agents (up to version 1.2.4) to set the `
 ```
 
 and AFAICT in Fargate, there are too many available IP addresses to let Consul pick one on its own. This image finds the IP address to bind to using the ECS Container Metadata Service, and then starts the Consul Agent with a `-bind` parameter set to that IP.
+
+## Usage
+
+Pass the Dwolla environment (in lowercase) as the first value of the command array. Other values will be ignored.

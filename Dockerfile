@@ -5,4 +5,4 @@ FROM consul:$CONSUL_VERSION
 COPY init.sh /init.sh
 
 ENTRYPOINT ["/init.sh"]
-CMD ["sandbox", "sandbox"]
+CMD ["sandbox"]
