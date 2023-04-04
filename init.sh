@@ -1,25 +1,25 @@
 #!/bin/sh
 
 PRIVATE_IP=$(curl --silent "${ECS_CONTAINER_METADATA_URI_V4}/task" | \
-             jq -r '.Containers | 
+             jq -r '.Containers |
                     map(
-                      select(.Name == "consul-agent") | 
-                      .Networks | 
+                      select(.Name == "consul-agent") |
+                      .Networks |
                       map(
-                        select(.NetworkMode == "awsvpc") | 
+                        select(.NetworkMode == "awsvpc") |
                         .IPv4Addresses
                       )
-                    ) | 
-                    flatten | 
+                    ) |
+                    flatten |
                     .[0]')
 DATACENTER="$1"
-CLUSTER="$2"
-readonly PRIVATE_IP DATACENTER CLUSTER
+ENVIRONMENT="$2"
+readonly PRIVATE_IP DATACENTER ENVIRONMENT
 
-echo "Binding to IP ${PRIVATE_IP} for datacenter ${DATACENTER} and joining consul.${CLUSTER}.${AWS_DEFAULT_REGION}.dwolla.net"
+echo "Binding to IP ${PRIVATE_IP} for datacenter ${DATACENTER} and joining consul.${AWS_DEFAULT_REGION}.${ENVIRONMENT}.dwolla.net"
 
 exec consul agent \
   -data-dir=/var/lib/consul \
   -datacenter="${DATACENTER}" \
-  -join="consul.${CLUSTER}.${AWS_DEFAULT_REGION}.dwolla.net" \
+  -join="consul.${AWS_DEFAULT_REGION}.${ENVIRONMENT}.dwolla.net" \
   -bind="${PRIVATE_IP}"
