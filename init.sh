@@ -36,6 +36,6 @@ echo "Binding to IP ${PRIVATE_IP} for datacenter ${DATACENTER} and joining consu
 exec consul agent \
   -data-dir=/var/lib/consul \
   -datacenter="${DATACENTER}" \
-  -retry-join "provider=aws tag_key=Name tag_value=${ENVIRONMENT}-consul" \
+  -retry-join "provider=aws region=${ECS_REGION} tag_key=Name tag_value=${ENVIRONMENT}-consul" \
   -enable-script-checks \
   -bind="${PRIVATE_IP}"
