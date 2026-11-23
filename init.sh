@@ -37,5 +37,4 @@ exec consul agent \
   -data-dir=/var/lib/consul \
   -datacenter="${DATACENTER}" \
   -retry-join "provider=aws region=${ECS_REGION} tag_key=Name tag_value=${ENVIRONMENT}-consul" \
-  -enable-script-checks \
   -bind="${PRIVATE_IP}"
