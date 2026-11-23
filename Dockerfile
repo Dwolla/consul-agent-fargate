@@ -1,6 +1,6 @@
 ARG CONSUL_VERSION
 
-FROM consul:$CONSUL_VERSION
+FROM hashicorp/consul:${CONSUL_VERSION}
 
 COPY init.sh /init.sh
 

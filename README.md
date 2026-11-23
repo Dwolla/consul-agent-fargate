@@ -11,3 +11,13 @@ and AFAICT in Fargate, there are too many available IP addresses to let Consul p
 ## Usage
 
 Pass the Dwolla environment (in lowercase) as the first value of the command array. Other values will be ignored.
+
+## Building
+
+The image is built from HashiCorp's official [`hashicorp/consul`](https://hub.docker.com/r/hashicorp/consul) image. Set the Consul version with the required `CONSUL_VERSION` build arg:
+
+```
+docker build --build-arg CONSUL_VERSION=2.1.0 .
+```
+
+The build fails if `CONSUL_VERSION` isn't set. `hashicorp/consul` publishes 1.8.x and later; older versions are only available from the deprecated `library/consul` image.
